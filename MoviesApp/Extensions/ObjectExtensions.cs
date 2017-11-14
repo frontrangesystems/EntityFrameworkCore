@@ -31,7 +31,12 @@ namespace MoviesApp.Extensions
                 var source = sourceProperties.FirstOrDefault(p => p.Name == dest.Name && p.PropertyType == dest.PropertyType);
                 if (source != null)
                 {
-                    dest.SetValue(output, source.GetValue(input));
+                    var destValue = dest.GetValue(output);
+                    var sourceValue = source.GetValue(input);
+                    if (sourceValue != destValue)
+                    {
+                        dest.SetValue(output, sourceValue);
+                    }
                 }
             }
 
