@@ -418,7 +418,7 @@ namespace MoviesApp.Helpers
             Console.WriteLine("Seeding actors");
             Actors.ForEach(a =>
             {
-                var entity = MoviesContext.Instance.FilmActors
+                var entity = MoviesContext.Instance.Actors
                     .SingleOrDefault(e => e.ActorId == a.ActorId);
                 if (entity == null)
                 {
