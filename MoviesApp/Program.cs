@@ -7,12 +7,13 @@ namespace MoviesApp
     {
         static void Main(string[] args)
         {
-            // TODO: fix seeding film image table
-             SeedDataHelper.SeedDatabase();
+//             SeedDataHelper.SeedDatabase();
             // SimpleSelectHelper.RunAll();
             // OneToOneSelectHelper.RunAll();
             // OneToManySelectHelper.RunAll();
-            ManyToManySelectHelper.RunAll();
+//            ManyToManySelectHelper.RunAll();
+//            RawSqlHelper.RunAll();
+            TransactionHelper.RunAll();
             Console.ReadKey();
         }
     }
