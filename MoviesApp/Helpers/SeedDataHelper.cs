@@ -525,6 +525,7 @@ namespace MoviesApp.Helpers
                     addedCount++;
                 }
             });
+            Console.WriteLine($"Done. Updated: {updatedCount}, Added: {addedCount}");
 
             MoviesContext.Instance.SaveChanges();
         }
