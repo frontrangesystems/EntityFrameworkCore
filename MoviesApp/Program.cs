@@ -10,11 +10,11 @@ namespace MoviesApp
         {
             MoviesContext.UseLogger = true;
 
-//            SeedDataHelper.SeedDatabase();
 //            SimpleSelectHelper.RunAll();
 //            OneToOneSelectHelper.RunAll();
 //            OneToManySelectHelper.RunAll();
 //            ManyToManySelectHelper.RunAll();
+//            SeedDataHelper.SeedDatabase();
 //            InsertHelper.RunAll();
 //            UpdateHelper.RunAll();
 //            DeleteHelper.RunAll();
