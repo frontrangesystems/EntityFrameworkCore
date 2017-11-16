@@ -1,10 +1,16 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MoviesApp.Entities;
+using MoviesApp.Providers;
 
 namespace MoviesApp.Data
 {
     public class MoviesContext : DbContext
     {
+        private static MoviesContext _context;
+        private static bool _useLogger;
         public virtual DbSet<Actor> Actors { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Film> Films { get; set; }
@@ -13,7 +19,16 @@ namespace MoviesApp.Data
         public virtual DbSet<FilmImage> FilmImages { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
 
-        private static MoviesContext _context;
+        public static bool UseLogger
+        {
+            get => _useLogger;
+            set
+            {
+                _useLogger = value;
+                _context = null;
+            }
+        }
+
         public static MoviesContext Instance
         {
             get
@@ -21,15 +36,20 @@ namespace MoviesApp.Data
                 if (_context == null)
                 {
                     _context = new MoviesContext();
-                    // var serviceProvider = _context.GetInfrastructure<IServiceProvider>();
-                    // var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
-                    // loggerFactory.AddProvider(new MyLoggerProvider());
+
+                    if (UseLogger)
+                    {
+                        var serviceProvider = _context.GetInfrastructure();
+                        var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+                        loggerFactory.AddProvider(new MyLoggerProvider());
+                    }
                 }
+
                 return _context;
             }
         }
 
-                protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
@@ -43,16 +63,9 @@ namespace MoviesApp.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<FilmActor>(entity =>
-            {
-                entity.HasKey(e => new { e.FilmId, e.ActorId });
-            });
+            modelBuilder.Entity<FilmActor>(entity => { entity.HasKey(e => new {e.FilmId, e.ActorId}); });
 
-            modelBuilder.Entity<FilmCategory>(entity =>
-            {
-                entity.HasKey(e => new { e.FilmId, e.CategoryId });
-            });
+            modelBuilder.Entity<FilmCategory>(entity => { entity.HasKey(e => new {e.FilmId, e.CategoryId}); });
         }
-
     }
 }

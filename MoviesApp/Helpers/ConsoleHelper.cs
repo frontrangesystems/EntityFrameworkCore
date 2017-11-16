@@ -8,6 +8,7 @@ namespace MoviesApp.Helpers
         public static void WriteSpacer(string label = null)
         {
             Console.WriteLine();
+            Console.WriteLine();
             var separator = new string('-', 40);
             Console.WriteLine(separator);
             if (!string.IsNullOrWhiteSpace(label))

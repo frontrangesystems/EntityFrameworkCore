@@ -1,19 +1,29 @@
 ﻿using System;
+using MoviesApp.Data;
 using MoviesApp.Helpers;
 
 namespace MoviesApp
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-//             SeedDataHelper.SeedDatabase();
-            // SimpleSelectHelper.RunAll();
-            // OneToOneSelectHelper.RunAll();
-            // OneToManySelectHelper.RunAll();
+            MoviesContext.UseLogger = true;
+
+//            SeedDataHelper.SeedDatabase();
+//            SimpleSelectHelper.RunAll();
+//            OneToOneSelectHelper.RunAll();
+//            OneToManySelectHelper.RunAll();
 //            ManyToManySelectHelper.RunAll();
+//            InsertHelper.RunAll();
+//            UpdateHelper.RunAll();
+//            DeleteHelper.RunAll();
+//            PerformanceHelper.RunAll();
+//            StoredProcedureHelper.RunAll();
 //            RawSqlHelper.RunAll();
-            TransactionHelper.RunAll();
+//            TransactionHelper.RunAll();
+
+            Console.WriteLine("Press a key to exit.");
             Console.ReadKey();
         }
     }
