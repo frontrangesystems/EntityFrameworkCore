@@ -19,6 +19,8 @@ namespace MoviesApp.Helpers
 
         private static void SelectActor()
         {
+            ConsoleHelper.WriteCaller();
+
             var sql = "select * from actor where actorid = 12";
             var films = MoviesContext.Instance.Actors
                 .FromSql(sql)
@@ -28,6 +30,8 @@ namespace MoviesApp.Helpers
 
         private static void SelectActorWithParameter()
         {
+            ConsoleHelper.WriteCaller();
+
             var sql = "select * from actor where actorid = ?";
             var actors = MoviesContext.Instance.Actors
                 .FromSql(sql, 2)
@@ -37,6 +41,8 @@ namespace MoviesApp.Helpers
 
         private static void SelectSingleFilm()
         {
+            ConsoleHelper.WriteCaller();
+
             var sql = "select * from film limit 1";
             var films = MoviesContext.Instance.Films
                 .FromSql(sql)

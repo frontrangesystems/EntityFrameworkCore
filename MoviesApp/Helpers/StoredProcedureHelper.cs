@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using ConsoleTables;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,7 @@ namespace MoviesApp.Helpers
         {
             FindFilms();
             FindActors();
+            PagedActors();
         }
 
         private static void FindFilms()
@@ -70,6 +72,25 @@ namespace MoviesApp.Helpers
             var actors = MoviesContext.Instance.Actors
                 .FromSql(sql, "on")
                 .Select(a => a.Copy<Actor, ActorModel>());
+            ConsoleTable.From(actors).Write();
+        }
+
+        private static void PagedActors()
+        {
+            ConsoleHelper.WriteCaller();
+
+            var sql = "call PagedActors({0}, {1})";
+
+            Console.WriteLine("Enter the page size:");
+            var pageSize = Console.ReadLine().ToInt();
+
+            Console.WriteLine("Enter the page number:");
+            var pageNumber = Console.ReadLine().ToInt();
+
+            var actors = MoviesContext.Instance.Actors
+                .FromSql(sql, pageSize, pageNumber)
+                .Select(a => a.Copy<Actor, ActorModel>());
+
             ConsoleTable.From(actors).Write();
         }
     }

@@ -14,6 +14,7 @@ namespace MoviesApp.Helpers
         public static void FilmsForRating()
         {
             ConsoleHelper.WriteCaller();
+
             var ratings = MoviesContext.Instance.Ratings.Include(r => r.Films);
             foreach (var rating in ratings)
             {

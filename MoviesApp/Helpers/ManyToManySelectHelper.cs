@@ -17,6 +17,7 @@ namespace MoviesApp.Helpers
         private static void ActorsForFilms()
         {
             ConsoleHelper.WriteCaller();
+
             var films = MoviesContext.Instance.Films
                 .Include(f => f.FilmActors)
                 .ThenInclude(fa => fa.Actor);

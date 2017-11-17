@@ -334,8 +334,8 @@ namespace MoviesApp.Helpers
         public static void SeedDatabase()
         {
             WriteDataCount();
-            // AddSeedData();
-            AddOrUpdateSeedData();
+             AddSeedData();
+//            AddOrUpdateSeedData();
             WriteDataCount();
         }
 
@@ -355,6 +355,21 @@ namespace MoviesApp.Helpers
 
         private static void AddSeedData()
         {
+            if (!MoviesContext.Instance.Ratings.Any())
+            {
+                Console.WriteLine("Seeding ratings");
+                Ratings.ForEach(r =>
+                {
+                    r.RatingId = 0;
+                    MoviesContext.Instance.Ratings.Add(r);
+                });
+                MoviesContext.Instance.SaveChanges();
+                Console.WriteLine("Done");
+            }
+            else
+            {
+                Console.WriteLine("Skipping Ratings");
+            }
             if (!MoviesContext.Instance.Films.Any())
             {
                 Console.WriteLine("Seeding films");
@@ -363,6 +378,7 @@ namespace MoviesApp.Helpers
                     f.FilmId = 0;
                     MoviesContext.Instance.Films.Add(f);
                 });
+                MoviesContext.Instance.SaveChanges();
                 Console.WriteLine("Done");
             }
             else
@@ -378,6 +394,7 @@ namespace MoviesApp.Helpers
                     c.CategoryId = 0;
                     MoviesContext.Instance.Categories.Add(c);
                 });
+                MoviesContext.Instance.SaveChanges();
                 Console.WriteLine("Done");
             }
             else
@@ -389,14 +406,13 @@ namespace MoviesApp.Helpers
             {
                 Console.WriteLine("Seeding film categories");
                 FilmCategories.ForEach(fc => MoviesContext.Instance.FilmCategories.Add(fc));
+                MoviesContext.Instance.SaveChanges();
                 Console.WriteLine("Done");
             }
             else
             {
                 Console.WriteLine("Skipping film categories");
             }
-
-            MoviesContext.Instance.SaveChanges();
         }
 
         private static void AddOrUpdateSeedData()
@@ -452,7 +468,6 @@ namespace MoviesApp.Helpers
                 {
                     MoviesContext.Instance.FilmActors.Attach(fa);
                     MoviesContext.Instance.Entry(fa).State = EntityState.Added;
-                    System.Diagnostics.Debug.WriteLine($"a: {fa.ActorId} f: {fa.FilmId}");
                     addedCount++;
                 }
             });
