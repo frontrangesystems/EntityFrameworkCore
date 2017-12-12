@@ -44,6 +44,8 @@ namespace MoviesApp.Helpers
             ConsoleHelper.WriteCaller();
 
             var actors = MoviesContext.Instance.Actors
+                .OrderBy(a=>a.LastName)
+                .ThenBy(a=>a.FirstName)
                 .Include(a => a.FilmActors)
                 .ThenInclude(fa => fa.Film);
 
@@ -52,7 +54,7 @@ namespace MoviesApp.Helpers
                 Console.WriteLine($"{actor.FirstName} {actor.LastName}");
                 if (actor.FilmActors.Any())
                 {
-                    foreach (var filmActor in actor.FilmActors)
+                    foreach (var filmActor in actor.FilmActors.OrderBy(fa=>fa.Film.Title))
                     {
                         var film = filmActor.Film;
                         Console.WriteLine($"\t{film.Title}");
@@ -70,7 +72,8 @@ namespace MoviesApp.Helpers
             ConsoleHelper.WriteCaller();
 
             var categories = MoviesContext.Instance.Categories
-                .Include(c => c.FilmCategories);
+                .Include(c => c.FilmCategories)
+                .ThenInclude(fc => fc.Film);
 
             foreach (var category in categories)
             {
