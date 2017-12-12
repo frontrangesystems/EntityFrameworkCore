@@ -15,7 +15,7 @@ namespace MoviesApp.Helpers
         {
             ConsoleHelper.WriteCaller();
 
-            var ratings = MoviesContext.Instance.Ratings.Include(r => r.Films);
+            var ratings = MoviesContext.Instance.Ratings.OrderByDescending(r=>r.Code).Include(r => r.Films);
             foreach (var rating in ratings)
             {
                 Console.WriteLine($"{rating.Code}\t{rating.Name}");
@@ -23,7 +23,7 @@ namespace MoviesApp.Helpers
                 {
                     Console.WriteLine("\t-- none --");
                 }
-                foreach (var film in rating.Films)
+                foreach (var film in rating.Films.OrderBy(f=>f.Title))
                 {
                     Console.WriteLine($"\t{film.Title}");
                 }
