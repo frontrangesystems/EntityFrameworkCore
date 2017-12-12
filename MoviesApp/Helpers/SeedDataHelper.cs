@@ -334,8 +334,8 @@ namespace MoviesApp.Helpers
         public static void SeedDatabase()
         {
             WriteDataCount();
-//             AddSeedData();
-            AddOrUpdateSeedData();
+             AddSeedData();
+//            AddOrUpdateSeedData();
             WriteDataCount();
         }
 
@@ -358,7 +358,11 @@ namespace MoviesApp.Helpers
             if (!MoviesContext.Instance.Ratings.Any())
             {
                 Console.WriteLine("Seeding ratings");
-                MoviesContext.Instance.Ratings.AddRange(Ratings);
+                Ratings.ForEach(r =>
+                {
+                    r.RatingId = 0;
+                    MoviesContext.Instance.Ratings.Add(r);
+                });
                 MoviesContext.Instance.SaveChanges();
                 Console.WriteLine("Done");
             }
@@ -430,19 +434,18 @@ namespace MoviesApp.Helpers
             Console.WriteLine("Seeding actors");
             Actors.ForEach(a =>
             {
-                // check with Any()
-                var exists = MoviesContext.Instance.Actors
-                    .Any(e => e.ActorId == a.ActorId);
-                if (exists)
+                var entity = MoviesContext.Instance.Actors
+                    .SingleOrDefault(e => e.ActorId == a.ActorId);
+                if (entity == null)
                 {
                     MoviesContext.Instance.Actors.Attach(a);
-                    MoviesContext.Instance.Entry(a).State = EntityState.Modified;
-                    updatedCount++;
+                    MoviesContext.Instance.Entry(a).State = EntityState.Added;
+                    addedCount++;
                 }
                 else
                 {
-                    MoviesContext.Instance.Actors.Add(a);
-                    addedCount++;
+                    a.Copy(entity);
+                    updatedCount++;
                 }
             });
 
@@ -463,7 +466,8 @@ namespace MoviesApp.Helpers
                     .SingleOrDefault(a => a.FilmId == fa.FilmId && a.ActorId == fa.ActorId);
                 if (filmActor == null)
                 {
-                    MoviesContext.Instance.FilmActors.Add(fa);
+                    MoviesContext.Instance.FilmActors.Attach(fa);
+                    MoviesContext.Instance.Entry(fa).State = EntityState.Added;
                     addedCount++;
                 }
             });
@@ -484,7 +488,8 @@ namespace MoviesApp.Helpers
                     .SingleOrDefault(e => e.FilmId == fc.FilmId && e.CategoryId == fc.CategoryId);
                 if (filmCategory == null)
                 {
-                    MoviesContext.Instance.FilmCategories.Add(fc);
+                    MoviesContext.Instance.FilmCategories.Attach(fc);
+                    MoviesContext.Instance.Entry(fc).State = EntityState.Added;
                     addedCount++;
                 }
             });
@@ -504,7 +509,8 @@ namespace MoviesApp.Helpers
                 var category = MoviesContext.Instance.Categories.SingleOrDefault(e => e.CategoryId == c.CategoryId);
                 if (category == null)
                 {
-                    MoviesContext.Instance.Categories.Add(c);
+                    MoviesContext.Instance.Categories.Attach(c);
+                    MoviesContext.Instance.Entry(c).State = EntityState.Added;
                     addedCount++;
                 }
                 else
@@ -529,7 +535,8 @@ namespace MoviesApp.Helpers
                 var image = MoviesContext.Instance.FilmImages.SingleOrDefault(e => e.FilmImageId == i.FilmImageId);
                 if (image == null)
                 {
-                    MoviesContext.Instance.FilmImages.Add(i);
+                    MoviesContext.Instance.FilmImages.Attach(i);
+                    MoviesContext.Instance.Entry(i).State = EntityState.Added;
                     addedCount++;
                 }
             });
@@ -549,7 +556,8 @@ namespace MoviesApp.Helpers
                 var film = MoviesContext.Instance.Films.SingleOrDefault(e => e.FilmId == f.FilmId);
                 if (film == null)
                 {
-                    MoviesContext.Instance.Films.Add(f);
+                    MoviesContext.Instance.Films.Attach(f);
+                    MoviesContext.Instance.Entry(f).State = EntityState.Added;
                     addedCount++;
                 }
                 else
@@ -573,7 +581,8 @@ namespace MoviesApp.Helpers
                 var rating = MoviesContext.Instance.Ratings.SingleOrDefault(e => e.RatingId == r.RatingId);
                 if (rating == null)
                 {
-                    MoviesContext.Instance.Ratings.Add(r);
+                    MoviesContext.Instance.Ratings.Attach(r);
+                    MoviesContext.Instance.Entry(r).State = EntityState.Added;
                     addedCount++;
                 }
                 else

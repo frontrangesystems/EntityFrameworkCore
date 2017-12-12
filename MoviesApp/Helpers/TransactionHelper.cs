@@ -7,11 +7,10 @@ namespace MoviesApp.Helpers
 {
     public static class TransactionHelper
     {
-        // transaction scope
         public static void RunAll()
         {
-//            DataNotSaved();
-//            DataSaved();
+            DataNotSaved();
+            DataSaved();
             TransactionRolledBackException();
             TransactionRolledBackBusinessRule();
         }
@@ -76,7 +75,6 @@ namespace MoviesApp.Helpers
                 MoviesContext.Instance.Actors.Add(actor);
                 MoviesContext.Instance.SaveChanges();
 
-                //                transaction.Commit();
                 MoviesContext.Instance.Database.CommitTransaction();
             }
 
@@ -115,7 +113,7 @@ namespace MoviesApp.Helpers
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Exception encountered: {ex.Message}");
-//                    transaction.Rollback();
+                    transaction.Rollback();
                     Console.WriteLine("Transaction rolled back");
                 }
             }

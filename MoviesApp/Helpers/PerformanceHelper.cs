@@ -10,8 +10,8 @@ namespace MoviesApp.Helpers
         {
             MoviesContext.UseLogger = true;
 
-//            PoorlyPerformingQuery();
-            OptimizedQuery();
+            PoorlyPerformingQuery();
+//            OptimizedQuery();
 
             MoviesContext.UseLogger = false;
         }

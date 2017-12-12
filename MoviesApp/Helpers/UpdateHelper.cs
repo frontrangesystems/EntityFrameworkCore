@@ -12,13 +12,12 @@ namespace MoviesApp.Helpers
     {
         public static void RunAll()
         {
-//            UpdateActor();
+            UpdateActor();
             UpdateFilm();
         }
 
         private static void UpdateFilm()
         {
-            MoviesContext.UseLogger = true;
             ConsoleHelper.WriteCaller();
             Console.WriteLine("Update a Film");
 
@@ -57,13 +56,8 @@ namespace MoviesApp.Helpers
 
                 if (!string.IsNullOrWhiteSpace(ratingCode))
                 {
-                    var rating = MoviesContext.Instance.Ratings
-                        .FirstOrDefault(r => r.Code == ratingCode);
+                    var rating = MoviesContext.Instance.Ratings.FirstOrDefault(r => r.Code == ratingCode);
                     film.Rating = rating;
-                    if (rating == null)
-                    {
-                        film.RatingId = null;
-                    }
                 }
 
                 MoviesContext.Instance.SaveChanges();
