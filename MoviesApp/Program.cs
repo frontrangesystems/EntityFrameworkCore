@@ -11,7 +11,7 @@ namespace MoviesApp
         {
             //MoviesContext.UseLogger = true;
 
-//            SeedDataHelper.SeedDatabase();
+            SeedDataHelper.SeedDatabase();
             // run against SQL Server
 //            SimpleSelectHelper.RunAll();
 //            OneToOneSelectHelper.RunAll();

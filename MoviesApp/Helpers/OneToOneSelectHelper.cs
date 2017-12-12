@@ -19,8 +19,8 @@ namespace MoviesApp.Helpers
 
             var films = MoviesContext.Instance.Films
                 .Include(f=>f.FilmImage)
-                .Where(f => f.FilmImage != null).ToList();
-            films.ForEach(f => Console.WriteLine($"{f.Title} - {f.FilmImage.Title}"));
+                .ToList();
+            films.ForEach(f => Console.WriteLine($"{f.Title} - {f.FilmImage?.Title}"));
         }
 
         private static void SelectFilmImagesAndFilms()

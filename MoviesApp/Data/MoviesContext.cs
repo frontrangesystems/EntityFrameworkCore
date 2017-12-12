@@ -54,7 +54,7 @@ namespace MoviesApp.Data
             if (!optionsBuilder.IsConfigured)
             {
                 // MySQL
-                optionsBuilder.UseMySql("server=localhost;userid=root;pwd=rootpw;port=3306;database=MoviesApp;sslmode=none;");
+               optionsBuilder.UseMySql("server=localhost;userid=root;pwd=rootpw;port=3306;database=MoviesApp;sslmode=none;");
 
                 // SQL Server
                 // optionsBuilder.UseSqlServer("Server=.;Database=MoviesAppSqlServer;User Id=web;Password=web;");
